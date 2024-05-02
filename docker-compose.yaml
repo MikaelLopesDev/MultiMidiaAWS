@@ -1,0 +1,13 @@
+version: "3.8"
+services:
+  postgres:
+    image: postgres
+    container_name: aws_postgres
+    environment:
+      POSTGRES_DB: aws_db
+      POSTGRES_USER: aws_user
+      POSTGRES_PASSWORD: senhaadmin
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./pgdata:/var/lib/postgres/data
