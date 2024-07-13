@@ -2,6 +2,7 @@ package com.ufpi.multimidiaawsbackend.Services;
 
 import com.ufpi.multimidiaawsbackend.DTO.LoginDTO;
 import com.ufpi.multimidiaawsbackend.DTO.UserDTO;
+import com.ufpi.multimidiaawsbackend.DTO.UserNameLoginDTO;
 import com.ufpi.multimidiaawsbackend.Exceptions.*;
 import com.ufpi.multimidiaawsbackend.Models.User;
 import com.ufpi.multimidiaawsbackend.Repositories.UserRepository;
@@ -38,6 +39,10 @@ public class UserService {
 
     public User findUserByEmail(String email){
         return repository.findUserByEmail(email).orElseThrow(UserNotFoundException::new);
+    }
+
+    public User findUserByUsername(String username){
+        return repository.findUserByUsername(username).orElseThrow(UserNotFoundException::new);
     }
 
     public User createUser(UserDTO userDTO){
@@ -108,12 +113,19 @@ public class UserService {
         return false;
     }
 
-    public User Login(LoginDTO loginDTO){
+    public User Login(LoginDTO loginDTO) {
+        return loginCommon(findUserByEmail(loginDTO.email()), loginDTO.password());
+    }
+
+    public User Login(UserNameLoginDTO loginDTO) {
+        return loginCommon(findUserByUsername(loginDTO.username()), loginDTO.password());
+    }
+
+    private User loginCommon(User user, String password) {
         try {
-            User user = findUserByEmail(loginDTO.email());
-            if(encrypt(loginDTO.password()).equals(user.getPassword())){
+            if (encrypt(password).equals(user.getPassword())) {
                 return user;
-            }else{
+            } else {
                 throw new LoginIncorrectDataException();
             }
         } catch (Exception e) {
