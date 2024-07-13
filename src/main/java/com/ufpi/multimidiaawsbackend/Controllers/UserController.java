@@ -2,6 +2,7 @@ package com.ufpi.multimidiaawsbackend.Controllers;
 
 import com.ufpi.multimidiaawsbackend.DTO.LoginDTO;
 import com.ufpi.multimidiaawsbackend.DTO.UserDTO;
+import com.ufpi.multimidiaawsbackend.DTO.UserNameLoginDTO;
 import com.ufpi.multimidiaawsbackend.Models.User;
 import com.ufpi.multimidiaawsbackend.Services.UserService;
 import org.springframework.http.HttpStatus;
@@ -56,6 +57,12 @@ public class UserController {
 
     @PostMapping("/login")
     public ResponseEntity<User> Login(@RequestBody LoginDTO loginDTO){
+        User newUser = userService.Login(loginDTO);
+        return new ResponseEntity<>(newUser, HttpStatus.OK);
+    }
+
+    @PostMapping("/login/name")
+    public ResponseEntity<User> Login(@RequestBody UserNameLoginDTO loginDTO){
         User newUser = userService.Login(loginDTO);
         return new ResponseEntity<>(newUser, HttpStatus.OK);
     }
