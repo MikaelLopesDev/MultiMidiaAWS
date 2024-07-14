@@ -44,7 +44,7 @@ const Login = ({ onLogin }) => {
                         <i className="fas fa-lock"></i>
                         <input type="password" name="password" value={credentials.password} onChange={handleChange} placeholder="Password" required />
                     </div>
-                    <button type="submit" className="btn-login">Login</button>
+                    <button type="submit" className="btn-login">Confirmar</button>
                 </form>
             </div>
         </div>

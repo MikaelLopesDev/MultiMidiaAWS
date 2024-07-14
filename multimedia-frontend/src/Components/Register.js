@@ -40,7 +40,7 @@ const Register = () => {
     return (
         <div className="register-container">
             <div className="register-box">
-                <h2>Register</h2>
+                <h2>Não tem cadastro ? Faça o seu agora</h2>
                 <form onSubmit={handleSubmit}>
                     <div className="input-group">
                         <i className="fas fa-user"></i>
@@ -66,7 +66,7 @@ const Register = () => {
                         <i className="fas fa-info-circle"></i>
                         <textarea name="description" value={form.description} onChange={handleChange} placeholder="Description"></textarea>
                     </div>
-                    <button type="submit" className="btn-register">Register</button>
+                    <button type="submit" className="btn-register">Confirmar</button>
                 </form>
             </div>
         </div>
