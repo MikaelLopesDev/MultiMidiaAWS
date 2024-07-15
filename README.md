@@ -1,10 +1,10 @@
 # Projeto de Upload de Multimídia
 Este projeto é uma página web para uma bibliteca multimídia (fotos, músicas e vídeos), construída com Java usando Springboot, JavaScript usando react, HTML e CSS e integrada na AWS para armazenamento e processamento de arquivos.
 
-- [Introdução](#introduçao)
+- [Introdução](#introdução)
 - [Tecnologias Utilizadas](#tecnologias-utilizadas)
-- [Instalação](#instalaçao)
-- [Configuração da AWS](#configuraçao-da-aws)
+- [Instalação](#instalação)
+- [Configuração da AWS](#configuração-da-aws)
 
 ## Introdução
 Este projeto permite que os usuários façam upload e gerenciem de arquivos multimídia para um servidor web. Os arquivos são armazenados na AWS EC2 e podem ser acessados e gerenciados pelo usuário. O objetivo é demonstrar como integrar uma aplicação web com serviços de nuvem da AWS.
