@@ -11,9 +11,14 @@ const App = () => {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
 
     useEffect(() => {
+        // Deslogar o usuário na inicialização
+        authService.logout();
+
         const user = authService.getCurrentUser();
         if (user) {
             setIsAuthenticated(true);
+        } else {
+            setIsAuthenticated(false);
         }
     }, []);
 
@@ -28,7 +33,7 @@ const App = () => {
 
     return (
         <Router>
-            {isAuthenticated ? null : <Navbar />}
+            {!isAuthenticated && <Navbar />}
             <Routes>
                 <Route path="/" element={<Home />} />
                 <Route path="/register" element={<Register />} />
