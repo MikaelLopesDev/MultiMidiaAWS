@@ -99,3 +99,17 @@ Configurar o Servidor:
 
 - Faça o upload do seu código para a instância EC2 usando SCP ou Git.
 - Navegue até o diretório do projeto e inicie o backend e o frontend conforme descrito na seção de Instalação.
+
+Funcionalidades
+
+    Gerenciamento de Usuário
+        Criação de contas de usuário.
+        Edição e atualização de informações de perfil. (Somente no backend por enquanto)
+
+    Autenticação
+        Login de usuário.
+        Logout de usuário.
+
+    Dashboard do Usuário
+        Exibição de informações relevantes para o usuário logado.
+        Acesso a funcionalidades específicas baseadas no perfil do usuário.
