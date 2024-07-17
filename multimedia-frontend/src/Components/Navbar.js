@@ -1,13 +1,19 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
-import './Navbar.css'; // Adicionando o CSS para estilização
+import { Link, useLocation } from 'react-router-dom';
+import './Navbar.css';
 
 const Navbar = () => {
+    const location = useLocation();
+    const isHome = location.pathname === '/';
+    const isCentered = location.pathname === '/login' || location.pathname === '/register';
+
     return (
-        <nav className="navbar">
-            <Link to="/" className="nav-link">Home</Link>
-            <Link to="/login" className="nav-link">Login</Link>
-            <Link to="/register" className="nav-link">Cadastre-se</Link>
+        <nav className={`navbar ${isHome ? 'navbar-right' : ''} ${isCentered ? 'navbar-center' : ''}`}>
+            <ul className="navbar-links">
+                <li><Link to="/">Home</Link></li>
+                <li><Link to="/login">Login</Link></li>
+                <li><Link to="/register">Register</Link></li>
+            </ul>
         </nav>
     );
 };
