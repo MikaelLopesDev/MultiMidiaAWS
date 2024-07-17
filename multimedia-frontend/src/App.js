@@ -6,6 +6,7 @@ import Dashboard from './Components/Dashboard';
 import Navbar from './Components/Navbar';
 import Home from './Components/Home';
 import authService from './Services/authService';
+import EditUser from "./Components/EditUser";
 
 const App = () => {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -37,6 +38,7 @@ const App = () => {
             <Routes>
                 <Route path="/" element={<Home />} />
                 <Route path="/register" element={<Register />} />
+                <Route path="/edit-profile" element={<EditUser />} />
                 <Route path="/login" element={<Login onLogin={handleLogin} />} />
                 <Route path="/dashboard" element={<Dashboard onLogout={handleLogout} />} />
             </Routes>
