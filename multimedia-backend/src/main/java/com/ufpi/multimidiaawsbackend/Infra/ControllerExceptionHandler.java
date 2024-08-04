@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 @RestControllerAdvice
 public class ControllerExceptionHandler {
+    //TODO: Adicionar exceptions faltantes
 
     @ExceptionHandler(PasswordRulesException.class)
     public ResponseEntity InvalidPassword(PasswordRulesException exception){

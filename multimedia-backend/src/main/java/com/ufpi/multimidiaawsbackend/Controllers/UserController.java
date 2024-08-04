@@ -66,4 +66,6 @@ public class UserController {
         User newUser = userService.Login(loginDTO);
         return new ResponseEntity<>(newUser, HttpStatus.OK);
     }
+
+    //TODO: Esqueceu a senha
 }
