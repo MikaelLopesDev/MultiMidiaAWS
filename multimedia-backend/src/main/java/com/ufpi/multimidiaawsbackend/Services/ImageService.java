@@ -11,10 +11,10 @@ import com.ufpi.multimidiaawsbackend.Models.User;
 import com.ufpi.multimidiaawsbackend.Repositories.ImageRepository;
 import lombok.SneakyThrows;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -38,7 +38,7 @@ public class ImageService {
    
     public List<Image> getOwnerImages(Long ownerId){     
         userService.findUserById(ownerId);
-        return getAllImages().stream().filter(i -> i.getOwner().getId() == ownerId).collect(Collectors.toList());
+        return getAllImages().stream().filter(image -> image.getOwner().getId().equals(ownerId)).collect(Collectors.toList());
     }
 
     @SneakyThrows
@@ -52,7 +52,7 @@ public class ImageService {
     }
 
     private void validateImage(MultipartFile file){
-        String fileType = file.getContentType();
+        String fileType = Objects.requireNonNull(file.getContentType()).toUpperCase().split("/")[1];
         if(fileType == null){
             throw new InvalidFileException();
         }
@@ -65,9 +65,9 @@ public class ImageService {
         //TODO: Editar na aws
         Optional<Image> imageOptional = this.repository.findById(id);
         if (imageOptional.isPresent()) {
+            //TODO: Alterar o nome do arquivo
             Image image = imageOptional.get();
             image.setOwner(userService.findUserById(imageDTO.ownerId()));
-            image.setUploadDate(imageDTO.uploadDate());
             image.setDescription(imageDTO.description());
             image.setTags(imageDTO.tags());
             return this.repository.save(image);

@@ -9,7 +9,7 @@ import lombok.Setter;
 @Setter
 @MappedSuperclass
 public abstract class AVContent extends Media{
-    private int duration;
+    private double duration;
     private int bitRate;
     private GENRE genre;
 }
