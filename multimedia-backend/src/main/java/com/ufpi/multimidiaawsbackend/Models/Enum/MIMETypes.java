@@ -6,5 +6,5 @@ public enum MIMETypes {
     //Audio
     MP3, WAV, OGG, FLAC, XFLAC ,MPEG, WAVE,
     //Video
-    MP4, AVI, MOV, WEBM
+    MP4, AVI, MOV, WEBM, XMSVIDEO, QUICKTIME
 }

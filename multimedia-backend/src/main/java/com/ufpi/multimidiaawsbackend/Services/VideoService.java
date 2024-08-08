@@ -2,7 +2,7 @@ package com.ufpi.multimidiaawsbackend.Services;
 
 import com.ufpi.multimidiaawsbackend.DTO.VideoDTO;
 import com.ufpi.multimidiaawsbackend.Exceptions.InvalidFileException;
-import com.ufpi.multimidiaawsbackend.Exceptions.NotAnAudioException;
+import com.ufpi.multimidiaawsbackend.Exceptions.NotAVideoException;
 import com.ufpi.multimidiaawsbackend.Exceptions.VideoNotFoundException;
 import com.ufpi.multimidiaawsbackend.Models.*;
 import com.ufpi.multimidiaawsbackend.Models.Video;
@@ -52,8 +52,8 @@ public class VideoService {
         if(fileType == null){
             throw new InvalidFileException();
         }
-        if(Video.verifyType(fileType)){
-            throw new NotAnAudioException();
+        if(!Video.verifyType(fileType)){
+            throw new NotAVideoException();
         }
     }
 

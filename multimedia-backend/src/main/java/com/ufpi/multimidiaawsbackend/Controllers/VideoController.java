@@ -40,8 +40,8 @@ public class VideoController {
     }
 
     @PostMapping
-    public ResponseEntity<Video> createVideo(@RequestParam MultipartFile file, @RequestParam Long ownerId, @RequestParam LocalDateTime uploadDate, @RequestParam String description, @RequestParam String tags){
-        VideoDTO videoDTO = new VideoDTO(ownerId, uploadDate, description, tags);
+    public ResponseEntity<Video> createVideo(@RequestParam MultipartFile file, @RequestParam Long ownerId, @RequestParam LocalDateTime uploadDate, @RequestParam String description, @RequestParam String genre, @RequestParam String tags){
+        VideoDTO videoDTO = new VideoDTO(ownerId, uploadDate, description, genre, tags);
         Video newVideo = videoService.createVideo(videoDTO, file);
         return new ResponseEntity<>(newVideo, HttpStatus.CREATED);
     }

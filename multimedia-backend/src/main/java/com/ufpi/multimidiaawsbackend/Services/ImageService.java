@@ -56,7 +56,7 @@ public class ImageService {
         if(fileType == null){
             throw new InvalidFileException();
         }
-        if(Image.verifyType(fileType)){
+        if(!Image.verifyType(fileType)){
             throw new NotAnImageException();
         }
     }

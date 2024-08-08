@@ -1,7 +1,9 @@
 package com.ufpi.multimidiaawsbackend.Models;
 
 import com.ufpi.multimidiaawsbackend.DTO.VideoDTO;
+import com.ufpi.multimidiaawsbackend.Models.Enum.GENRE;
 import com.ufpi.multimidiaawsbackend.Models.Enum.MIMETypes;
+import com.ufpi.multimidiaawsbackend.Utils.VideoUtils;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -31,64 +33,54 @@ public class Video extends AVContent {
     private static final Set<String> VALID_VIDEO_TYPES = Set.of(
             MIMETypes.MP4.name(),
             MIMETypes.AVI.name(),
+            MIMETypes.XMSVIDEO.name(),
             MIMETypes.MOV.name(),
+            MIMETypes.QUICKTIME.name(),
             MIMETypes.WEBM.name()
     );
 
-    public Video(VideoDTO videoDTO, User user, MultipartFile video) throws IOException {
+    public Video(VideoDTO videoDTO, User user, MultipartFile video) throws Exception {
         this.setOwner(user);
         this.setFileName(video.getOriginalFilename());
         this.setUploadDate(videoDTO.uploadDate());
         this.setDescription(videoDTO.description());
+        this.setGenre(GENRE.valueOf(videoDTO.genre()));
         this.setTags(videoDTO.tags());
         this.setFileSize(video.getSize());
         this.setUploadDate(videoDTO.uploadDate());
         String mime = Objects.requireNonNull(video.getContentType()).toUpperCase().split("/")[1];
+        mime = mime.contains("-")? mime.replace("-", "") : mime;
         this.setMIME(MIMETypes.valueOf(mime));
         this.setDescription(videoDTO.description());
         extractVideoAttributes(video);
 
     }
 
-    private void extractVideoAttributes(MultipartFile video) throws IOException {
-        File tempFile = convertToFile(video);
-
-        try (FFmpegFrameGrabber grabber = new FFmpegFrameGrabber(tempFile)) {
-            grabber.start();
-
-            this.width = grabber.getImageWidth();
-            this.height = grabber.getImageHeight();
-            this.fps = (int) grabber.getFrameRate();
-            this.videoCodec = grabber.getVideoCodecName();
-            this.audioCodec = grabber.getAudioCodecName();
-            //TODO: Pegar a thumbnail
-            //this.setThumbnailLocation(videoDTO.thumbnailLocation());
-            /*
-            TODO: Pegar detalhes de processo Versões de qualidade de vídeo geradas: Detalhes sobre as versões criadas com
-             diferentes resoluções (por exemplo, 1080p, 720p, 480p) e suas respectivas
-             localizações.
-             this.setProcessingDetails(videoDTO.processingDetails());
-            */
-            grabber.stop();
-        } finally {
-            tempFile.delete();
-        }
+    private void extractVideoAttributes(MultipartFile video) throws Exception {
+        File tempFile = createTempFile(video, ".mp4");
+        this.setFps(VideoUtils.getVideoFPS(tempFile.getAbsolutePath()));
+        this.setWidth(VideoUtils.getVideoWidth(tempFile.getAbsolutePath()));
+        this.setHeight(VideoUtils.getVideoHeight(tempFile.getAbsolutePath()));
+        this.setVideoCodec(VideoUtils.getVideoCodec(tempFile.getAbsolutePath()));
+        this.setAudioCodec(VideoUtils.getAudioCodec(tempFile.getAbsolutePath()));
+        this.setDuration(VideoUtils.getVideoDuration(tempFile.getAbsolutePath()));
+        this.setBitRate(VideoUtils.getVideoBitrate(tempFile.getAbsolutePath()));
+        String outputpath = "";
+        VideoUtils.getThumbnail(tempFile.getAbsolutePath(), outputpath +".png");
     }
 
-    private File convertToFile(MultipartFile file) throws IOException {
-        File convFile = File.createTempFile("temp", file.getOriginalFilename());
-        try (FileOutputStream fos = new FileOutputStream(convFile);
-             InputStream is = file.getInputStream()) {
-            byte[] buffer = new byte[1024];
-            int length;
-            while ((length = is.read(buffer)) > 0) {
-                fos.write(buffer, 0, length);
-            }
+    private static File createTempFile(MultipartFile file, String suffix) throws IOException {
+        File tempFile = File.createTempFile("tempfile", suffix);
+        try (FileOutputStream fos = new FileOutputStream(tempFile)) {
+            fos.write(file.getBytes());
         }
-        return convFile;
+        return tempFile;
     }
 
     public static boolean verifyType(String type) {
+        if(type.contains("-")){
+            type = type.replace("-", "");
+        }
         return VALID_VIDEO_TYPES.contains(type.toUpperCase());
     }
 }

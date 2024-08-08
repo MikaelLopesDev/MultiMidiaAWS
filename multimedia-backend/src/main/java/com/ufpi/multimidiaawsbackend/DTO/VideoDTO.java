@@ -9,5 +9,6 @@ public record VideoDTO(
         Long ownerId,
         LocalDateTime uploadDate,
         String description,
+        String genre,
         String tags
 ) implements Serializable {}
