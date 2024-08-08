@@ -6,7 +6,9 @@ import com.ufpi.multimidiaawsbackend.Services.AudioService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
@@ -31,9 +33,16 @@ public class AudioController {
         return new ResponseEntity<>(audio, HttpStatus.OK);
     }
 
+    @GetMapping("from/{ownerId}")
+    public ResponseEntity<List<Audio>> getUserAudios(@PathVariable("ownerId") Long ownerId){
+        List<Audio> images = this.audioService.getOwnerAudios(ownerId);
+        return new ResponseEntity<>(images, HttpStatus.OK);
+    }
+
     @PostMapping
-    public ResponseEntity<Audio> createAudio(@RequestBody AudioDTO audioDTO){
-        Audio newAudio = audioService.createAudio(audioDTO);
+    public ResponseEntity<Audio> createAudio(@RequestParam MultipartFile file, @RequestParam Long ownerId, @RequestParam LocalDateTime uploadDate, @RequestParam String description, @RequestParam String genre, @RequestParam String tags){
+        AudioDTO audioDTO = new AudioDTO(ownerId, uploadDate, description, genre, tags);
+        Audio newAudio = audioService.createAudio(audioDTO, file);
         return new ResponseEntity<>(newAudio, HttpStatus.CREATED);
     }
 

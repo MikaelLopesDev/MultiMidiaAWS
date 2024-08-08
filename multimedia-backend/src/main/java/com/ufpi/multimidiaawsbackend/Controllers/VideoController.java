@@ -6,7 +6,9 @@ import com.ufpi.multimidiaawsbackend.Services.VideoService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
@@ -31,9 +33,16 @@ public class VideoController {
         return new ResponseEntity<>(video, HttpStatus.OK);
     }
 
+    @GetMapping("from/{ownerId}")
+    public ResponseEntity<List<Video>> getUserVideos(@PathVariable("ownerId") Long ownerId){
+        List<Video> videos = this.videoService.getOwnerVideos(ownerId);
+        return new ResponseEntity<>(videos, HttpStatus.OK);
+    }
+
     @PostMapping
-    public ResponseEntity<Video> createVideo(@RequestBody VideoDTO videoDTO){
-        Video newVideo = videoService.createVideo(videoDTO);
+    public ResponseEntity<Video> createVideo(@RequestParam MultipartFile file, @RequestParam Long ownerId, @RequestParam LocalDateTime uploadDate, @RequestParam String description, @RequestParam String genre, @RequestParam String tags){
+        VideoDTO videoDTO = new VideoDTO(ownerId, uploadDate, description, genre, tags);
+        Video newVideo = videoService.createVideo(videoDTO, file);
         return new ResponseEntity<>(newVideo, HttpStatus.CREATED);
     }
 

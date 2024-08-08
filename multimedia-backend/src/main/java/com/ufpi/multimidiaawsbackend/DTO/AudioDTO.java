@@ -6,14 +6,9 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 
 public record AudioDTO(
-        Long id,
-        String fileName,
-        int fileSize,
+        Long ownerId,
         LocalDateTime uploadDate,
-        MIMETypes mimeType,
         String description,
-        int duration,
-        String tags,
-        int samplingRate,
-        int channels
+        String genre,
+        String tags
 ) implements Serializable {}
