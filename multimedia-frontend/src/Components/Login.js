@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import authService from '../Services/authService';
 import './Login.css';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';  // Certifique-se de que Link está importado aqui
+import logo from '../Assets/nuvem-play-icon.png';  // Certifique-se de que o caminho está correto
 
 const Login = ({ onLogin }) => {
     const [credentials, setCredentials] = useState({ email: '', password: '' });
@@ -34,6 +35,7 @@ const Login = ({ onLogin }) => {
     return (
         <div className="login-container">
             <div className="login-box">
+                <img src={logo} alt="Logo" className="login-logo" />  {/* Adicione esta linha */}
                 <h2>Login</h2>
                 <form onSubmit={handleSubmit}>
                     <div className="input-group">
@@ -43,6 +45,10 @@ const Login = ({ onLogin }) => {
                     <div className="input-group">
                         <i className="fas fa-lock"></i>
                         <input type="password" name="password" value={credentials.password} onChange={handleChange} placeholder="Password" required />
+                    </div>
+                    {/* Adicionando o link para a tela de cadastro */}
+                    <div className="register-link">
+                        <Link to="/register">Cadastre-se</Link>
                     </div>
                     <button type="submit" className="btn-login">Confirmar</button>
                 </form>

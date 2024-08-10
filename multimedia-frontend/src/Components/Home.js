@@ -1,5 +1,6 @@
 import React from 'react';
 import './Home.css';
+import Footer from './Footer'; // Certifique-se de que o caminho está correto
 import logo from '../Assets/media-cloud-logo.png'; // Certifique-se de que a imagem está na pasta assets
 
 const Home = () => {
@@ -7,13 +8,13 @@ const Home = () => {
         <div className="home-container">
             <div className="hero-section">
                 <div className="hero-text">
-                    <h1>Bem-vindo ao MediaCloud</h1>
+                    <h1>Bem-vindo ao MediaCloud!</h1>
                     <p>Armazene seus vídeos, músicas, fotos e muito mais com poucos cliques.</p>
-                    <p>Oferecemos uma grande quantidade de armazenamento por um ótimo preço.</p>
+                    {/*<p>Oferecemos uma grande quantidade de armazenamento por um ótimo preço.</p>*/}
                     <p>Assine a plataforma e RECEBA a aprovação na disciplina de tópicos de engenharia de software.</p>
                     <div className="hero-buttons">
                         <a href="/register" className="button">Experimente grátis</a>
-                        <a href="/pricing" className="button button-secondary">Comprar agora</a>
+                        {/*<a href="/pricing" className="button button-secondary">Comprar agora</a>*/}
                     </div>
                 </div>
                 <div className="hero-image-container">
@@ -62,17 +63,20 @@ const Home = () => {
                     </div>
                 </div>
             </div>
-            <div className="footer">
-                <p>Made by Grupo 4:</p>
-                <p>JOÃO VICTOR SANTOS ANDRADE - 20199005767</p>
-                <p>MATHEUS VINICIUS LINHARES LEMOS DE OLIVEIRA - 20199013606</p>
-                <p>ISAAC AUGUSTO SANTANA BRITO - 20189043610</p>
-                <p>MIKAEL DA SILVA LOPES - 20199039120</p>
-                <p>ALEXANDRE JOSÉ CANTUÁRIA MONTEIRO ROSA FILHO - 20199011094</p>
-                <p>SAMUEL SILVESTRE SILVA BATISTA - 20199053773</p>
-            </div>
+            {/*<div className="footer">*/}
+            {/*    <p>Made by Grupo 4:</p>*/}
+            {/*    <p>JOÃO VICTOR SANTOS ANDRADE - 20199005767</p>*/}
+            {/*    <p>MATHEUS VINICIUS LINHARES LEMOS DE OLIVEIRA - 20199013606</p>*/}
+            {/*    <p>ISAAC AUGUSTO SANTANA BRITO - 20189043610</p>*/}
+            {/*    <p>MIKAEL DA SILVA LOPES - 20199039120</p>*/}
+            {/*    <p>ALEXANDRE JOSÉ CANTUÁRIA MONTEIRO ROSA FILHO - 20199011094</p>*/}
+            {/*    <p>SAMUEL SILVESTRE SILVA BATISTA - 20199053773</p>*/}
+            {/*</div>*/}
+            <Footer />
         </div>
     );
 };
+
+
 
 export default Home;

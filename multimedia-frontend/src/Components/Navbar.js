@@ -1,19 +1,29 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import './Navbar.css';
+import logo from '../Assets/nuvem-play-icon.png';
 
 const Navbar = () => {
     const location = useLocation();
-    const isHome = location.pathname === '/';
-    const isCentered = location.pathname === '/login' || location.pathname === '/register';
-
+    const currentPath = location.pathname;
     return (
-        <nav className={`navbar ${isHome ? 'navbar-right' : ''} ${isCentered ? 'navbar-center' : ''}`}>
-            <ul className="navbar-links">
-                <li><Link to="/">Home</Link></li>
-                <li><Link to="/login">Login</Link></li>
-                <li><Link to="/register">Register</Link></li>
-            </ul>
+        <nav className="navbar">
+            <div className="navbar-left">
+                <Link to="/">
+                    <img src={logo} alt="Logo" className="navbar-logo"/>
+                </Link>
+                MediaCloud
+            </div>
+            <div className="navbar-right">
+                <ul className="navbar-links">
+                    {currentPath !== '/login' && (
+                        <li><Link to="/login">Login</Link></li>
+                    )}
+                    {currentPath !== '/register' && (
+                        <li><Link to="/register">Cadastrar</Link></li>
+                    )}
+                </ul>
+            </div>
         </nav>
     );
 };
