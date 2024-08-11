@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import authService from '../Services/authService';
 import './Register.css';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';  // Certifique-se de importar Link
+import logo from '../Assets/nuvem-play-icon.png';
 
 const Register = () => {
     const [form, setForm] = useState({
@@ -40,19 +41,20 @@ const Register = () => {
     return (
         <div className="register-container">
             <div className="register-box">
-                <h2>Não tem cadastro ? Faça o seu agora</h2>
+                <img src={logo} alt="Logo" className="login-logo" />  {/* Adicione esta linha */}
+                <h2>Crie sua conta grátis</h2>
                 <form onSubmit={handleSubmit}>
                     <div className="input-group">
                         <i className="fas fa-user"></i>
-                        <input type="text" name="fullName" value={form.fullName} onChange={handleChange} placeholder="Full Name" required />
+                        <input type="text" name="fullName" value={form.fullName} onChange={handleChange} placeholder="Nome Completo" required />
                     </div>
                     <div className="input-group">
                         <i className="fas fa-user"></i>
-                        <input type="text" name="username" value={form.username} onChange={handleChange} placeholder="Username" required />
+                        <input type="text" name="username" value={form.username} onChange={handleChange} placeholder="Nome de Usuário" required />
                     </div>
                     <div className="input-group">
                         <i className="fas fa-lock"></i>
-                        <input type="password" name="password" value={form.password} onChange={handleChange} placeholder="Password" required />
+                        <input type="password" name="password" value={form.password} onChange={handleChange} placeholder="Senha" required />
                     </div>
                     <div className="input-group">
                         <i className="fas fa-envelope"></i>
@@ -60,14 +62,18 @@ const Register = () => {
                     </div>
                     <div className="input-group">
                         <i className="fas fa-image"></i>
-                        <input type="text" name="profileImage" value={form.profileImage} onChange={handleChange} placeholder="Profile Image URL" />
+                        <input type="text" name="profileImage" value={form.profileImage} onChange={handleChange} placeholder="URL da Imagem de Perfil" />
                     </div>
                     <div className="input-group">
                         <i className="fas fa-info-circle"></i>
-                        <textarea name="description" value={form.description} onChange={handleChange} placeholder="Description"></textarea>
+                        <textarea name="description" value={form.description} onChange={handleChange} placeholder="Descrição"></textarea>
                     </div>
                     <button type="submit" className="btn-register">Confirmar</button>
                 </form>
+                {/* Adicionando o link para a tela de login */}
+                <div className="login-link">
+                    <Link to="/login">Fazer login</Link>
+                </div>
             </div>
         </div>
     );
