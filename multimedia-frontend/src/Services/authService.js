@@ -1,9 +1,13 @@
 import axios from 'axios';
 
-const API_URL = 'http://3.239.184.73:8080/users';
+const API_URL = 'http://3.86.238.87:8080/users';
 
 const register = (user) => {
     return axios.post(API_URL, user);
+};
+
+const updateUser = (id, userData) => {
+  return axios.put(`${API_URL}/${id}`, userData)
 };
 
 const login = (credentials) => {
@@ -27,7 +31,8 @@ const authService = {
     login,
     loginWithUsername,
     logout,
-    getCurrentUser
+    getCurrentUser,
+    updateUser
 };
 
 export default authService;
