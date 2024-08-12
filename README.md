@@ -5,6 +5,7 @@ Este projeto é uma página web para uma bibliteca multimídia (fotos, músicas 
 - [Tecnologias Utilizadas](#tecnologias-utilizadas)
 - [Instalação](#instalação)
 - [Configuração da AWS](#configuração-da-aws)
+- [Documentação e Funcionalidades](#documentação-e-funcionalidades)
 
 ## Introdução
 Este projeto permite que os usuários façam upload e gerenciem de arquivos multimídia para um servidor web. Os arquivos são armazenados na AWS EC2 e podem ser acessados e gerenciados pelo usuário. O objetivo é demonstrar como integrar uma aplicação web com serviços de nuvem da AWS.
@@ -100,16 +101,236 @@ Configurar o Servidor:
 - Faça o upload do seu código para a instância EC2 usando SCP ou Git.
 - Navegue até o diretório do projeto e inicie o backend e o frontend conforme descrito na seção de Instalação.
 
-Funcionalidades
+## Documentação e Funcionalidades
 
-    Gerenciamento de Usuário
-        Criação de contas de usuário.
-        Edição e atualização de informações de perfil. (Somente no backend por enquanto)
+### Funcionalidades
 
-    Autenticação
-        Login de usuário.
-        Logout de usuário.
+#### Gerenciamento de Usuário
+Criação de contas de usuário.
+Edição e atualização de informações de perfil. (Somente no backend por enquanto)
 
-    Dashboard do Usuário
-        Exibição de informações relevantes para o usuário logado.
-        Acesso a funcionalidades específicas baseadas no perfil do usuário.
+#### Autenticação
+Login de usuário.
+Logout de usuário.
+
+#### Dashboard do Usuário
+Exibição de informações relevantes para o usuário logado.
+Acesso a funcionalidades específicas baseadas no perfil do usuário.
+
+#### Upload e Armazenamento de Arquivos
+Fazer upload de arquivos multi midia. (video, foto, audio)
+Obter todos os seus arquivos salvos na AWS vinculados a sua conta.
+
+#### Reprodução de Arquivos
+Reproduzir arquivos de vídeo e áudio diretamente pela aplicação web.
+Alterar a velocidade da reprodução do vídeo.
+
+### Documentação da API
+
+Este repositório contém uma API desenvolvida para gerenciar arquivos de mídia (imagens, áudios e vídeos) hospedados na AWS. Abaixo, você encontrará detalhes sobre as rotas disponíveis, métodos suportados e exemplos de retorno.
+
+#### Endpoints
+
+#### 1. Imagens
+   
+#### Listar todas as imagens
+
+    Método: GET
+    URL: {AWS}/images
+    Corpo: Nenhum
+    
+Exemplo de Retorno:
+```
+[
+    {
+        "id": 1,
+        "fileName": "chrono-trigger-cover-art.jpg",
+        "fileSize": 62024,
+        "uploadDate": "2024-08-03T12:34:56",
+        "tags": "game",
+        "height": 423,
+        "width": 564,
+        "colorDepth": 24,
+        "exif": null,
+        "description": "wallpaper chrono trigger",
+        "mime": "JPEG"
+    },
+    ...
+]
+```
+
+#### Obter imagem por ID
+
+    Método: GET
+    URL: {AWS}/images/{id}
+    Corpo: Nenhum
+
+Exemplo de Retorno:
+```
+{
+    "id": 1,
+    "fileName": "chrono-trigger-cover-art.jpg",
+    "fileSize": 62024,
+    "uploadDate": "2024-08-03T12:34:56",
+    "tags": "game",
+    "height": 423,
+    "width": 564,
+    "colorDepth": 24,
+    "exif": null,
+    "description": "wallpaper chrono trigger",
+    "mime": "JPEG"
+}
+```
+
+#### Criar nova imagem
+
+    Método: POST
+    URL: {AWS}/images
+
+Corpo:
+```
+{
+    "ownerId": 1,
+    "uploadDate": "2024-08-03T12:34:56",
+    "fileName": "festa-de-aniversario.jpg",
+    "description": "Foto da minha festa de aniversário",
+    "tags": "eu, aniversário, festa, irmãs"
+}
+```
+
+#### Editar imagem existente
+
+    Método: PUT
+    URL: {AWS}/images/{id}
+
+Corpo:
+```
+{
+    "ownerId": 1,
+    "uploadDate": "2024-08-03T12:34:56",
+    "fileName": "festa-de-aniversario.jpg",
+    "description": "Foto da minha festa de aniversário",
+    "tags": "eu, aniversário, festa, irmãs"
+}
+```
+
+Exemplo de Retorno:
+
+```
+{
+    "id": 1,
+    "fileName": "festa-de-aniversario.jpg",
+    "fileSize": 62024,
+    "uploadDate": "2024-08-03T12:34:56",
+    "tags": "eu, aniversário, festa, irmãs",
+    "height": 423,
+    "width": 564,
+    "colorDepth": 24,
+    "exif": null,
+    "description": "Foto da minha festa de aniversário",
+    "mime": "JPEG"
+}
+```
+
+#### Deletar imagem
+
+    Método: DELETE
+    URL: {AWS}/images/{id}
+    Corpo: Nenhum
+    Exemplo de Retorno: 204 No Content
+
+#### Baixar imagem
+
+    Método: POST
+    URL: {AWS}/images/data
+    Exemplo de Retorno: A imagem solicitada para download.
+    
+Corpo:
+```
+{
+    "ownerId": 1,
+    "fileName": "WhatsApp Image 2024-08-07 at 20.15.26.jpeg"
+}
+```
+
+#### Listar imagens de um usuário
+
+    Método: GET
+    URL: {AWS}/users/login/name
+    Corpo: Nenhum
+    
+Exemplo de Retorno:
+```
+[
+    {
+        "id": 1,
+        "fileName": "chrono-trigger-cover-art.jpg",
+        "fileSize": 62024,
+        "uploadDate": "2024-08-03T12:34:56",
+        "tags": "game",
+        "height": 423,
+        "width": 564,
+        "colorDepth": 24,
+        "exif": null,
+        "description": "wallpaper chrono trigger",
+        "mime": "JPEG"
+    },
+    ...
+]
+```
+
+#### Áudios e Vídeos
+
+Os endpoints para áudios e vídeos são similares aos de imagens, com a diferença de que eles possuem o campo adicional genre, que é um enum com as seguintes opções:
+
+    MUSIC
+    PODCAST
+    AUDIO_BOOK
+    SOUNDEFFECT
+    OTHER
+    FILM
+    TV_SERIES
+    TUTORIAL
+    INTERVIEW
+
+#### Usuários
+   
+#### Criar usuário
+
+    Método: POST
+    URL: {AWS}/users
+    
+Corpo:
+```
+{
+    "username": "string",
+    "email": "string",
+    "password": "string"
+}
+```
+
+#### Editar usuário
+
+    Método: PUT
+    URL: {AWS}/users/{id}
+    
+Corpo:
+```
+{
+    "username": "string",
+    "email": "string",
+    "password": "string"
+}
+```
+
+#### Deletar usuário
+
+    Método: DELETE
+    URL: {AWS}/users/{id}
+    Corpo: Nenhum
+    Exemplo de Retorno: 204 No Content
+
+#### Observações
+
+Substitua {AWS} pela URL base da sua API.
+Para áudios e vídeos, o campo genre deve ser especificado de acordo com o tipo de mídia.
