@@ -8,7 +8,8 @@ const MediaCard = ({ media, onDelete }) => {
     const [showModal, setShowModal] = useState(false);
 
     const mediaUrl = media.url;
-    const thumbnailUrl = media.thumbnail || media.url; // Usa o thumbnail fornecido pelo backend, ou a própria URL da mídia se não houver thumbnail
+    debugger
+    const thumbnailUrl = media.thumbnailUrl || media.url; // Usa o thumbnail fornecido pelo backend, ou a própria URL da mídia se não houver thumbnail
 
     const isImage = media.mime.includes('JPEG') || media.mime.includes('PNG');
     const isVideo = media.mime.includes('MP4') || media.mime.includes('QUICKTIME');
@@ -81,7 +82,7 @@ const MediaCard = ({ media, onDelete }) => {
             )}
             {isVideo && (
                 <img
-                    src={holdVideoImage}
+                    src={thumbnailUrl}
                     alt={media.description}
                     className="media-thumbnail"
                     onError={(e) => {
