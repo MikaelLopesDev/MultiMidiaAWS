@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes, Navigate, useLocation, useNavigate } from 'react-router-dom';
 import Register from './Components/Register';
 import Login from './Components/Login';
 import Dashboard from './Components/Dashboard';
@@ -9,6 +9,8 @@ import authService from './Services/authService';
 
 const App = () => {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
+    const navigate = useNavigate();
+    const location = useLocation();
 
     useEffect(() => {
         const user = authService.getCurrentUser();
@@ -26,11 +28,15 @@ const App = () => {
     const handleLogout = () => {
         authService.logout();
         setIsAuthenticated(false);
+        navigate('/');  // Redireciona para a página inicial após o logout
     };
 
+    // Mostrar a Navbar em todas as rotas, exceto em /dashboard
+    const shouldShowNavbar = location.pathname !== '/dashboard';
+
     return (
-        <Router>
-            {!isAuthenticated && <Navbar />}
+        <>
+            {shouldShowNavbar && <Navbar />}
             <Routes>
                 <Route path="/" element={<Home />} />
                 <Route path="/register" element={<Register />} />
@@ -44,8 +50,14 @@ const App = () => {
                         <Navigate to="/login" replace />} 
                 />
             </Routes>
-        </Router>
+        </>
     );
 };
 
-export default App;
+const AppWrapper = () => (
+    <Router>
+        <App />
+    </Router>
+);
+
+export default AppWrapper;

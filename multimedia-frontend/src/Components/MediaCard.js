@@ -34,8 +34,9 @@ const MediaCard = ({ media, onDelete }) => {
 
     const handleDelete = (e) => {
         e.stopPropagation(); // Evita que o modal abra ao clicar na lixeira
+        const mediaType = isVideo ? 'video' : isAudio ? 'audio' : 'image';
         if (window.confirm('Tem certeza que deseja excluir esta mídia?')) {
-            mediaService.deleteMedia(media.id)
+            mediaService.deleteMedia(media.id, mediaType)
                 .then(() => {
                     alert('Mídia excluída com sucesso!');
                     if (onDelete) {

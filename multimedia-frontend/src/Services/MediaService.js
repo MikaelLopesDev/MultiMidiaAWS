@@ -37,8 +37,21 @@ const updateMedia = (mediaId, mediaData) => {
     return axios.put(`${MEDIA_API_URL}/images/${mediaId}`, mediaData);
 };
 
-const deleteMedia = (mediaId) => {
-    return axios.delete(`${MEDIA_API_URL}/images/${mediaId}`);
+const deleteMedia = (mediaId, mediaType) => {
+    const token = authService.getCurrentUser()?.token;
+
+    let deleteUrl = `${MEDIA_API_URL}/images/${mediaId}`;
+    if (mediaType === 'video') {
+        deleteUrl = `${MEDIA_API_URL}/videos/${mediaId}`;
+    } else if (mediaType === 'audio') {
+        deleteUrl = `${MEDIA_API_URL}/audios/${mediaId}`;
+    }
+
+    return axios.delete(deleteUrl, {
+        headers: {
+            'Authorization': `Bearer ${token}`
+        }
+    });
 };
 
 const mediaService = {
