@@ -1,0 +1,31 @@
+.upload-media {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.upload-media form {
+    display: inline-block;
+    text-align: left;
+}
+
+.upload-media input {
+    display: block;
+    margin: 10px 0;
+    padding: 10px;
+    width: 100%;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+.upload-media button {
+    padding: 10px 20px;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.upload-media button:hover {
+    background-color: #218838;
+}

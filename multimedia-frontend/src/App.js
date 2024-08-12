@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
 import Register from './Components/Register';
 import Login from './Components/Login';
 import Dashboard from './Components/Dashboard';
@@ -11,9 +11,6 @@ const App = () => {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
 
     useEffect(() => {
-        // Deslogar o usuário na inicialização
-        authService.logout();
-
         const user = authService.getCurrentUser();
         if (user) {
             setIsAuthenticated(true);
@@ -38,7 +35,14 @@ const App = () => {
                 <Route path="/" element={<Home />} />
                 <Route path="/register" element={<Register />} />
                 <Route path="/login" element={<Login onLogin={handleLogin} />} />
-                <Route path="/dashboard" element={<Dashboard onLogout={handleLogout} />} />
+                
+                {/* Protege a rota /dashboard */}
+                <Route 
+                    path="/dashboard" 
+                    element={isAuthenticated ? 
+                        <Dashboard onLogout={handleLogout} /> : 
+                        <Navigate to="/login" replace />} 
+                />
             </Routes>
         </Router>
     );

@@ -1,71 +1,55 @@
-import React, { useEffect, useState } from 'react';
-import authService from '../Services/authService';
+import React, { useState, useEffect } from 'react';
+import MediaGallery from './MediaGallery';
+import UploadMedia from './UploadMedia';
+import Profile from './Profile';
+import ViewMedia from './ViewMedia';
 import './Dashboard.css';
+import authService from '../Services/authService';
 import { useNavigate } from 'react-router-dom';
 
-const Dashboard = ({ onLogout }) => {
+const Dashboard = () => {
     const [user, setUser] = useState(null);
+    const [currentView, setCurrentView] = useState('viewMedia'); // 'profile', 'viewMedia', 'uploadMedia'
     const navigate = useNavigate();
 
     useEffect(() => {
-        const currentUser = authService.getCurrentUser();
-        if (!currentUser) {
-            navigate('/login');
-        } else {
-            setUser(currentUser);
+        const loggedInUser = authService.getCurrentUser();
+        if (loggedInUser) {
+            authService.getProfile(loggedInUser.id)
+                .then(response => {
+                    setUser(response.data);
+                })
+                .catch(err => {
+                    console.error('Failed to fetch profile data:', err);
+                });
         }
-    }, [navigate]);
-
-    if (!user) {
-        return <div>Loading...</div>;
-    }
+    }, []);
 
     const handleLogout = () => {
-        onLogout();
-        navigate('/login');
+        authService.logout();
+        navigate('/'); // Redireciona para a tela Home após o logout
     };
 
     return (
         <div className="dashboard-container">
-            <div className="profile-section">
-                <img src={user.profileImage} alt="Profile" className="profile-image" />
-                <h2>{user.fullName}</h2>
-                <p>{user.email}</p>
-                <p>{user.description}</p>
-            </div>
-            <div className="media-library">
-                <h3>Sua Biblioteca de Mídia</h3>
-                <div className="media-items">
-                    <div className="media-item">
-                        <i className="fas fa-video"></i>
-                        <p>Vídeos</p>
-                    </div>
-                    <div className="media-item">
-                        <i className="fas fa-music"></i>
-                        <p>Músicas</p>
-                    </div>
-                    <div className="media-item">
-                        <i className="fas fa-image"></i>
-                        <p>Fotos</p>
-                    </div>
+            <header className="dashboard-header">
+                <div className="dashboard-header-logo">
+                    <img src={require('../Assets/nuvem-play-icon.png')} alt="MediaCloud Logo" />
                 </div>
-            </div>
-            <div className="shortcuts-section">
-                <h3>Atalhos</h3>
-                <button onClick={() => navigate('/upload')}>Adicionar Novo Conteúdo</button>
-                <button onClick={() => navigate('/edit-profile')}>Editar Perfil</button>
-            </div>
-            <div className="activities-feed">
-                <h3>Atividades Recentes</h3>
-                <ul>
-                    <li>Upload de vídeo: Vacation.mp4</li>
-                    <li>Adicionada nova música: Favorite Song.mp3</li>
-                    <li>Atualização do perfil</li>
-                </ul>
-            </div>
-            <div className="settings-section">
-                <h3>Configurações</h3>
-                <button onClick={handleLogout}>Logout</button>
+                <div className="dashboard-header-text">
+                    <h1>Bem-vindo ao seu Dashboard, {user?.username}!</h1>
+                </div>
+                <div className="dashboard-buttons">
+                    <button onClick={() => setCurrentView('profile')}>Meu Perfil</button>
+                    <button onClick={() => setCurrentView('viewMedia')}>Minhas Mídias</button>
+                    <button onClick={() => setCurrentView('uploadMedia')}>Upload de Mídia</button>
+                    <button onClick={handleLogout}>Logout</button>
+                </div>
+            </header>
+            <div className="dashboard-content">
+                {currentView === 'profile' && <Profile user={user} />}
+                {currentView === 'viewMedia' && <ViewMedia userId={user?.id} />}
+                {currentView === 'uploadMedia' && <UploadMedia userId={user?.id} onUploadSuccess={() => setCurrentView('viewMedia')} />}
             </div>
         </div>
     );
