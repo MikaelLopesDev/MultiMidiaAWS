@@ -40,7 +40,7 @@ const UploadMedia = ({ userId, onUploadSuccess }) => {
         const uploadDate = new Date().toISOString().slice(0, 19); // Corta a parte dos milissegundos
         formData.append('uploadDate', uploadDate);
 
-        const fileType = media.type.split('/')[0]; // 'image' ou 'video'
+        const fileType = media.type.split('/')[0]; // 'image', 'video', 'audio', etc.
         let uploadFunction;
 
         if (fileType === 'image') {
@@ -53,8 +53,10 @@ const UploadMedia = ({ userId, onUploadSuccess }) => {
             }
             formData.append('genre', genre); // Adiciona o gênero ao FormData
             uploadFunction = mediaService.uploadVideo;
+        } else if (fileType === 'audio') {
+            uploadFunction = mediaService.uploadAudio; // Supondo que exista uma função para upload de áudio
         } else {
-            alert('Tipo de arquivo não suportado!');
+            alert('Tipo de arquivo não suportado! Os formatos aceitos são: Imagem (JPEG, PNG), Vídeo (MP4, QUICKTIME) e Áudio (MP3, WAV).');
             setIsUploading(false);
             return;
         }

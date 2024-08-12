@@ -35,6 +35,13 @@ const ViewMedia = ({ userId }) => {
         setFilteredMedias(medias.filter(media => media.fileName.toLowerCase().includes(term)));
     };
 
+    const handleDelete = (mediaId) => {
+        // Atualiza a lista de mídias após uma exclusão
+        const updatedMedias = medias.filter(media => media.id !== mediaId);
+        setMedias(updatedMedias);
+        setFilteredMedias(updatedMedias);
+    };
+
     return (
         <div className="view-media-container">
             <h2>Minhas Mídias</h2>
@@ -55,7 +62,7 @@ const ViewMedia = ({ userId }) => {
             </div>
             <div className="media-gallery">
                 {filteredMedias.map(media => (
-                    <MediaCard key={media.id} media={media} />
+                    <MediaCard key={media.id} media={media} onDelete={handleDelete} />
                 ))}
             </div>
         </div>
